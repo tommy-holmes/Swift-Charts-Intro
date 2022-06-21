@@ -1,4 +1,4 @@
-# Swift-Charts-Intro
+# Swift Charts Intro
 A rudimentary stocks app using Swift Charts. This repo hold the associated project for my blog post on Medium.
 
 ## Setting up the charts with real data
