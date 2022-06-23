@@ -14,7 +14,7 @@ struct ChartData: Decodable {
 
 struct Stock: Decodable {
     let metaData: Meta
-    let timestamp: [Date]
+    let timestamp: [TimeInterval]
     let indicators: Indicators
     
     enum CodingKeys: String, CodingKey {
@@ -61,7 +61,7 @@ extension Stock {
         for index in timestamp.indices {
             prices.append(
                 StockPrice(
-                    timestamp: timestamp[index],
+                    timestamp: .init(timeIntervalSince1970: timestamp[index]),
                     volume: quote.volume[index],
                     open: quote.open[index],
                     high: quote.high[index],
