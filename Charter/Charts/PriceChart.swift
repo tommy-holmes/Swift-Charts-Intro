@@ -22,6 +22,7 @@ struct PriceChart: View {
     }
     @State private var selectedSymbol: Symbol = .apple
     @State private var selectedPrice: StockPrice?
+    @State private var annotationOffset: CGFloat = 0
     
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
@@ -42,13 +43,13 @@ struct PriceChart: View {
                     close: .value("Close", price.close)
                 )
                 .foregroundStyle(price.open < price.close ? .blue : .red)
-                .interpolationMethod(.stepCenter)
                 
                 if let selectedPrice {
                     RuleMark(x: .value("Selected Date", selectedPrice.timestamp))
                         .foregroundStyle(.gray.opacity(0.3))
                         .annotation(position: .top, alignment: .center) {
                             PriceAnnotation(for: selectedPrice)
+                                .offset(x: annotationOffset)
                         }
                 }
             }
@@ -61,6 +62,17 @@ struct PriceChart: View {
                             DragGesture()
                                 .onChanged { value in
                                     let xCurrent = value.location.x - g[proxy.plotAreaFrame].origin.x
+                                    let plotWidth = proxy.plotAreaSize.width
+                                    let upperBound = plotWidth * 0.7
+                                    let lowerBound = plotWidth * 0.4
+                                    
+                                    if (upperBound...plotWidth).contains(xCurrent) {
+                                        annotationOffset = upperBound - xCurrent
+                                    } else if (0...lowerBound).contains(xCurrent) {
+                                        annotationOffset = lowerBound - xCurrent
+                                    } else {
+                                        annotationOffset = 0
+                                    }
                                     
                                     if let currentDate: Date = proxy.value(atX: xCurrent) {
                                         let index = dateBins.index(for: currentDate)
@@ -70,7 +82,10 @@ struct PriceChart: View {
                                         }
                                     }
                                 }
-                                .onEnded { _ in selectedPrice = nil }
+                                .onEnded { _ in
+                                    selectedPrice = nil
+                                    annotationOffset = 0
+                                }
                         )
                 }
             }
@@ -81,5 +96,6 @@ struct PriceChart: View {
 struct StockChart_Previews: PreviewProvider {
     static var previews: some View {
         PriceChart()
+            .frame(height: 300)
     }
 }
