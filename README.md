@@ -8,3 +8,8 @@ A rudimentary stocks app using Swift Charts. This repo hold the associated proje
 ## Setting up the charts with real data
 I used the [Yahoo Finance API](https://rapidapi.com/apidojo/api/yh-finance/) to build the 
 Models so if you want to build on it and use your own API key then most of the objects should already be there. 
+
+# Example
+![Simulator Screen Shot - iPhone 13 mini - 2022-06-23 at 18 08 29](https://user-images.githubusercontent.com/59975039/175355666-98e2102c-6826-4fb9-bc22-c7c9e62fd536.png)
+## With annotation
+![Simulator Screen Shot - iPhone 13 mini - 2022-06-23 at 18 08 53](https://user-images.githubusercontent.com/59975039/175355722-8a45aa10-3f4e-4699-94a3-0afc397acdcf.png)
